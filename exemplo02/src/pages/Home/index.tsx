@@ -13,8 +13,8 @@ const Home = () => {
   const [page, setPage] = useState(1)
   const [newSearch, isNewSearch] = useState(false)
   const [option, setOption] = useState('relevant')
-  const [landscapeFilter, setLandscapeFilter] = useState('landscape')
-  const [portraitFilter, setPortraitFilter] = useState('portraid')
+  const [orientation, setLandscapeFilter] = useState(false)
+  
 
   const { lastResult, setLastResult, query, setQuery } = useContext(UserContext)
 
@@ -26,10 +26,7 @@ const Home = () => {
         photos: [],
         totalPages: 0,
       })
-      const searchResult = await searchPhotos(query, option, page, {
-        portrait: portraitFilter,
-        landscape: landscapeFilter,
-      })
+      const searchResult = await searchPhotos(query, option, page, orientation )
       console.log(searchResult)
       setLastResult(searchResult)
       isLoading(false)
@@ -67,7 +64,7 @@ const Home = () => {
         </button>
 
         <div>
-          <label htmlFor="option">Ordenar por: </label>
+          <label className="option">Ordenar por: </label>
           <select
             id="option"
             onChange={(e) => setOption(e.target.value)}
@@ -80,17 +77,17 @@ const Home = () => {
         <div>
           <label>
             <input
-              type="checkbox"
-              checked={portraitFilter}
-              onChange={() => setPortraitFilter('portraid')}
+              type="radio" // Use radio buttons for exclusive selection
+              checked={orientation === false}
+              onChange={() => setLandscapeFilter('portrait')}
             />
             Retrato
           </label>
           <label>
             <input
-              type="checkbox"
-              checked={landscapeFilter}
-              onChange={() => setLandscapeFilter(!landscapeFilter)}
+              type="radio" // Use radio buttons for exclusive selection
+              checked={orientation === true}
+              onChange={() => setLandscapeFilter('landscape')}
             />
             Paisagem
           </label>

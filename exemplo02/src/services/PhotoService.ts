@@ -11,13 +11,13 @@ export const searchPhotos = async (
   query: string,
   criteria: string,
   page: number,
-  orientation: string
+  orientation: boolean
 ) => {
   const result = await api.search.getPhotos({
     query,
     page,
     perPage: PER_PAGE,
-    orientation: 'landscape',
+   // orientation: 'landscape',
     orderBy: criteria as SearchOrderBy,
   })
 
