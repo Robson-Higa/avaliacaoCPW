@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState, useContext, SetStateAction } from 'react'
 
 import styles from './styles.module.css'
 import { Photo } from '../../models/Photo'
@@ -13,9 +13,12 @@ const Home = () => {
   const [page, setPage] = useState(1)
   const [newSearch, isNewSearch] = useState(false)
   const [option, setOption] = useState('relevant')
-  const [orientation, setLandscapeFilter] = useState(false)
+  const [selectedOption, setSelectedOption] = useState('')
   
-
+  const setLandscapeFilter = (selectedOption: SetStateAction<string>) => {
+    // Atualize o estado com a opção selecionada
+    setSelectedOption(selectedOption);
+  }
   const { lastResult, setLastResult, query, setQuery } = useContext(UserContext)
 
   const searchResults = async () => {
@@ -26,7 +29,7 @@ const Home = () => {
         photos: [],
         totalPages: 0,
       })
-      const searchResult = await searchPhotos(query, option, page, orientation )
+      const searchResult = await searchPhotos(query, option, page, selectedOption )
       console.log(searchResult)
       setLastResult(searchResult)
       isLoading(false)
@@ -64,35 +67,23 @@ const Home = () => {
         </button>
 
         <div>
-          <label className="option">Ordenar por: </label>
-          <select
-            id="option"
-            onChange={(e) => setOption(e.target.value)}
-            value={option}
-          >
-            <option value="relevant">Mais Relevantes</option>
-            <option value="latest">Mais Recentes</option>
+          <label className={styles.option}>Ordenar por:</label>
+          <select className={styles.optionButton}
+            id="option" onChange={(e) => setOption(e.target.value)} value={option}>
+            <option className={styles.optionButton} value="relevant">Mais Relevantes</option>
+            <option className={styles.optionButton} value="latest">Mais Recentes</option>
           </select>
         </div>
         <div>
-          <label>
-            <input
-              type="radio" // Use radio buttons for exclusive selection
-              checked={orientation === false}
-              onChange={() => setLandscapeFilter('portrait')}
-            />
-            Retrato
-          </label>
-          <label>
-            <input
-              type="radio" // Use radio buttons for exclusive selection
-              checked={orientation === true}
-              onChange={() => setLandscapeFilter('landscape')}
-            />
-            Paisagem
-          </label>
-        </div>
-
+      <label className={styles.option}>
+        <input  type="radio" name="orientation" value="Retrato" onChange={() => setLandscapeFilter('portraid')}/>
+        Retrato
+      </label>
+      <label className={styles.option}>
+        <input type="radio" name="orientation" value="Paisagem" onChange={() => setLandscapeFilter('landscape')}/>
+        Paisagem
+      </label>
+    </div>
         <button
           onClick={() => isNewSearch(true)}
           className={styles.responsiveSearchButton}

@@ -5,10 +5,11 @@ export type Photo = {
   creatorName: string
   thumbURL: string
   regularURL: string
+  orientation: string
 }
 
 export const getPhoto = (obj: any) => {
-  const { id, created_at, description, user, urls } = obj
+  const { id, created_at, description, user, urls, orientation } = obj
 
   const photo: Photo = {
     //id: id,
@@ -18,6 +19,7 @@ export const getPhoto = (obj: any) => {
     creatorName: user.name,
     regularURL: urls.regular,
     thumbURL: urls.thumb,
+    orientation: orientation,
   }
 
   return photo

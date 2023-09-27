@@ -39,6 +39,16 @@
   border: none;
   border-radius: 5px;
 }
+.optionButton{
+background-color: #c5eff7;
+  font-family: 'regular';
+  width: 130px;
+  padding: 2px 2px;
+  margin-left: 10px;
+  font-size: 80%;
+  border: none;
+  border-radius: 5px;
+}
 
 .responsiveSearchButton {
   background-color: #e4f1fe;
@@ -74,6 +84,12 @@
   font-family: 'bold';
   color: white;
   margin: 0 20px;
+}
+.option {
+
+  font-family: 'regular';
+  color: white;
+  margin: 0 5px;
 }
 
 @media screen and (max-width: 600px) {
