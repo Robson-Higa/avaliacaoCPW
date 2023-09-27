@@ -17,7 +17,7 @@ export const searchPhotos = async (
     query,
     page,
     perPage: PER_PAGE,
-   orientation: 'landscape',
+   orientation: 'portrait',
     orderBy: criteria as SearchOrderBy,
   })
 

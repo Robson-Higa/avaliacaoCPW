@@ -13,11 +13,11 @@ const Home = () => {
   const [page, setPage] = useState(1)
   const [newSearch, isNewSearch] = useState(false)
   const [option, setOption] = useState('relevant')
-  const [selectedOption, setSelectedOption] = useState('')
+  const [orientation, setOrientation] = useState('')
   
-  const setLandscapeFilter = (selectedOption: SetStateAction<string>) => {
-    // Atualize o estado com a opção selecionada
-    setSelectedOption(selectedOption);
+  const setLandscapeFilter = (orientation: string) => {
+    setOrientation(orientation)
+    isNewSearch(true)
   }
   const { lastResult, setLastResult, query, setQuery } = useContext(UserContext)
 
@@ -29,7 +29,7 @@ const Home = () => {
         photos: [],
         totalPages: 0,
       })
-      const searchResult = await searchPhotos(query, option, page, selectedOption )
+      const searchResult = await searchPhotos(query, option, page, orientation )
       console.log(searchResult)
       setLastResult(searchResult)
       isLoading(false)
@@ -39,7 +39,7 @@ const Home = () => {
   useEffect(() => {
     console.log('Entrou no useEffect 1')
     searchResults()
-  }, [page, option])
+  }, [page, option, orientation])
 
   useEffect(() => {
     if (newSearch) {
@@ -48,7 +48,7 @@ const Home = () => {
       searchResults()
       isNewSearch(false)
     }
-  }, [newSearch, option])
+  }, [newSearch, option, orientation])
 
   return (
     <div className={styles.container}>
@@ -76,7 +76,7 @@ const Home = () => {
         </div>
         <div>
       <label className={styles.option}>
-        <input  type="radio" name="orientation" value="Retrato" onChange={() => setLandscapeFilter('portraid')}/>
+        <input  type="radio" name="orientation" value="Retrato" onChange={() => setLandscapeFilter('portrait')}/>
         Retrato
       </label>
       <label className={styles.option}>
