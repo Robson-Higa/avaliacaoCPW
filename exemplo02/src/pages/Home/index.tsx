@@ -7,18 +7,16 @@ import { PacmanLoader } from 'react-spinners'
 import ResultCard from '../../components/ResultCard'
 import searchIcon from '../../assets/img/search.png'
 import { UserContext } from '../../context/UserContext'
+import { Orientation } from 'unsplash-js'
 
 const Home = () => {
   const [loading, isLoading] = useState(false)
   const [page, setPage] = useState(1)
   const [newSearch, isNewSearch] = useState(false)
   const [option, setOption] = useState('relevant')
-  const [orientation, setOrientation] = useState('')
-  
-  const setLandscapeFilter = (orientation: string) => {
-    setOrientation(orientation)
-    isNewSearch(true)
-  }
+  const [orientation, setOrientation] = useState<Orientation>('landscape')
+
+
   const { lastResult, setLastResult, query, setQuery } = useContext(UserContext)
 
   const searchResults = async () => {
@@ -29,7 +27,7 @@ const Home = () => {
         photos: [],
         totalPages: 0,
       })
-      const searchResult = await searchPhotos(query, option, page, orientation )
+      const searchResult = await searchPhotos(query, option, page, orientation)
       console.log(searchResult)
       setLastResult(searchResult)
       isLoading(false)
@@ -39,7 +37,7 @@ const Home = () => {
   useEffect(() => {
     console.log('Entrou no useEffect 1')
     searchResults()
-  }, [page, option, orientation])
+  }, [page, option])
 
   useEffect(() => {
     if (newSearch) {
@@ -75,15 +73,12 @@ const Home = () => {
           </select>
         </div>
         <div>
-      <label className={styles.option}>
-        <input  type="radio" name="orientation" value="Retrato" onChange={() => setLandscapeFilter('portrait')}/>
-        Retrato
-      </label>
-      <label className={styles.option}>
-        <input type="radio" name="orientation" value="Paisagem" onChange={() => setLandscapeFilter('landscape')}/>
-        Paisagem
-      </label>
-    </div>
+          <label className={styles.option}>Filtrar por:</label>
+          <select   className={styles.optionButton}  id="orientation" onChange={(e) => setOrientation(e.target.value as 'landscape' | 'portrait')} value={orientation}>
+            <option className={styles.optionButton} value="landscape">Paisagem</option>
+            <option className={styles.optionButton} value="portrait">Retrato</option>
+          </select>
+        </div>
         <button
           onClick={() => isNewSearch(true)}
           className={styles.responsiveSearchButton}
